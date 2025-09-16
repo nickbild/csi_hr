@@ -8,6 +8,8 @@ So I  decided to take a crack at it. I got a copy of the paper and spent some ti
 
 ## How It Works
 
+### An overview of Pulse-Fi
+
 To measure heart rate without contact, a person must be positioned between two ESP32 microcontrollers. One of the devices transmits a steady stream of Channel State Information (CSI) packets, while the other receives the packets. The CSI packets provide detailed information that describes how the signal propagates from the transmitter to the receiver. Anything that interrupts the signal, like the movements of a person, alters the signal in measurable ways. This fact has been leveraged for applications like activity recognition in the past.
 
 Heart beats also involve motion, although it is very subtle compared to what is seen in the types of activities, like walking, that activity recognition systems typically target. So to focus in on heart beats, the researchers came up with a multi-step data processing pipeline that looks like this:
@@ -21,6 +23,8 @@ Heart beats also involve motion, although it is very subtle compared to what is 
 | Data segmentation and normalization |
 
 This processed data is then fed into a multi-layer LSTM network that predicts heart rate.
+
+### My implementation
 
 ## Bill of Materials
 
