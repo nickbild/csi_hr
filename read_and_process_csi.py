@@ -26,6 +26,7 @@
 # September 2025
 # * Eliminate the graphical interface and calculate amplitude values for each carrier.
 # * Add data preprocessing steps from Pulse-Fi paper.
+# * Predict heart rate using LSTM model.
 ###
 
 import sys
@@ -38,7 +39,12 @@ from io import StringIO
 import ast
 from scipy.signal import butter, filtfilt, savgol_filter
 from typing import List, Tuple, Optional, Dict, Any
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
 
+
+COLLECT_TRAINING_DATA = False
 
 # Reduce displayed waveforms to avoid display freezes
 CSI_VAID_SUBCARRIER_INTERVAL = 1
@@ -59,6 +65,11 @@ fft_gain_data = np.zeros([CSI_DATA_INDEX], dtype=np.float64)
 fft_gains = []
 agc_gains = []
 
+
+if COLLECT_TRAINING_DATA:
+    train = open("training_data.txt", 'w')
+else:
+    model = keras.models.load_model("csi_hr.keras", safe_mode=False)
 
 def parse_csi_amplitudes(csi_str):
     # Convert the string into a Python list of ints
@@ -188,7 +199,7 @@ def csi_data_read_parse(port: str, csv_writer, log_file_fd,callback=None):
         csi_data = next(csv_reader)
         csi_data_len = int (csi_data[-3])
         if len(csi_data) != len(DATA_COLUMNS_NAMES) and len(csi_data) != len(DATA_COLUMNS_NAMES_C5C6):
-            print("element number is not equal",len(csi_data),len(DATA_COLUMNS_NAMES) )
+            # print("element number is not equal",len(csi_data),len(DATA_COLUMNS_NAMES) )
             # print(csi_data)
             log_file_fd.write("element number is not equal\n")
             log_file_fd.write(strings + '\n')
@@ -198,13 +209,13 @@ def csi_data_read_parse(port: str, csv_writer, log_file_fd,callback=None):
         try:
             csi_raw_data = json.loads(csi_data[-1])
         except json.JSONDecodeError:
-            print("data is incomplete")
+            # print("data is incomplete")
             log_file_fd.write("data is incomplete\n")
             log_file_fd.write(strings + '\n')
             log_file_fd.flush()
             continue
         if csi_data_len != len(csi_raw_data):
-            print("csi_data_len is not equal",csi_data_len,len(csi_raw_data))
+            # print("csi_data_len is not equal",csi_data_len,len(csi_raw_data))
             log_file_fd.write("csi_data_len is not equal\n")
             log_file_fd.write(strings + '\n')
             log_file_fd.flush()
@@ -232,13 +243,22 @@ def csi_data_read_parse(port: str, csv_writer, log_file_fd,callback=None):
         # Step 4: Pulse shaping.
         shaped = savitzky_golay_smooth(bandpassed, window_length=15, polyorder=3)
 
-        shaped_data.append(shaped)
-        if len(shaped_data) > 100:
-            # At this point, shaped_data contains the latest 100 'shaped' arrays.
-            # These are ready to be fed into the LSTM.
-            shaped_data = shaped_data[1:]
+        if COLLECT_TRAINING_DATA:
+            train.write(','.join(map(str, shaped)) + '\n')
         else:
-            print("Collected {0} of 100 initial CSI samples.".format(len(shaped_data)))
+            shaped_data.append(shaped)
+            if len(shaped_data) > 100:
+                # At this point, shaped_data contains the latest 100 'shaped' arrays.
+                # These are ready to be fed into the LSTM.
+                shaped_data = shaped_data[1:]
+                # Reshape the data for input to the model.
+                shaped_data_np = np.array(shaped_data, dtype=np.float32)
+                shaped_data_np = shaped_data_np.reshape((1, 100, 192))  # shape: (1, 100, 192)
+                # Make a heart rate prediction.
+                new_prediction = model.predict(shaped_data_np, verbose=0)
+                print(new_prediction[0][0])
+            else:
+                print("Collected {0} of 100 initial CSI samples.".format(len(shaped_data)))
 
 
         # Rotate data to the left
