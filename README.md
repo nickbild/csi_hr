@@ -20,6 +20,8 @@ Heart beats also involve motion, although it is very subtle compared to what is 
 | Pulse shaping |
 | Data segmentation and normalization |
 
+This processed data is then fed into a multi-layer LSTM network that predicts heart rate.
+
 ## Bill of Materials
 
 - 1 x Adafruit HUZZAH32 (ESP32-WROOM-32E)
