@@ -39,22 +39,27 @@ This processed data is then fed into a multi-layer LSTM network that predicts he
 I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller. They are placed several feet apart, and the measurement area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv). The source code was compiled and flashed to the devices using the [IDF docker image](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/tools/idf-docker-image.html), e.g.:
 
 ```bash
+git clone https://github.com/espressif/esp-csi.git
 docker pull espressif/idf
 
+# Build csi_send
 docker run --rm -v $PWD:~/project -w /project -u $UID -e HOME=/tmp -it espressif/idf
 cd esp-csi/examples/get-started/csi_send
 idf.py set-target esp32
 idf.py flash -b 921600 -p /dev/ttyUSB0
 exit
 
+# Flash csi_send
 docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_send/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
 
+# Build csi_recv
 docker run --rm -v $PWD:~/project -w /project -u $UID -e HOME=/tmp -it espressif/idf
 cd esp-csi/examples/get-started/csi_recv
 idf.py set-target esp32
 idf.py flash -b 921600 -p /dev/ttyUSB0
 exit
 
+# Flash csi_recv
 docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_recv/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
 ```
 
