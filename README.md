@@ -6,6 +6,8 @@ So I  decided to take a crack at it. I got a copy of the paper and spent some ti
 
 **Important Note:** *This system is not to be used as a medical device. It could provide false measurements, so it is only for educational use.*
 
+Thanks to Pranay Kocheta, Nayan Sanjay Bhatia, and Katia Obraczka for their work on Pulse-Fi, which inspired this project.
+
 ## How It Works
 
 ### An overview of Pulse-Fi
