@@ -41,10 +41,20 @@ I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32
 ```bash
 docker pull espressif/idf
 
-docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_send/project -w /project -u $UID -e HOME=/tmp espressif/idf:latest idf.py build
+docker run --rm -v $PWD:~/project -w /project -u $UID -e HOME=/tmp -it espressif/idf
+cd esp-csi/examples/get-started/csi_send
+idf.py set-target esp32
+idf.py flash -b 921600 -p /dev/ttyUSB0
+exit
+
 docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_send/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
 
-docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_recv/project -w /project -u $UID -e HOME=/tmp espressif/idf:latest idf.py build
+docker run --rm -v $PWD:~/project -w /project -u $UID -e HOME=/tmp -it espressif/idf
+cd esp-csi/examples/get-started/csi_recv
+idf.py set-target esp32
+idf.py flash -b 921600 -p /dev/ttyUSB0
+exit
+
 docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_recv/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
 ```
 
