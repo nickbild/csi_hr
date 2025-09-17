@@ -71,7 +71,7 @@ python read_and_process_csi.py -p /dev/ttyUSB0
 
 #### Training the machine learning model
 
-read_and_process_csi.py can also be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. This data is paired with actual heart rate data collected using a generic breakout board with a MAX30102 pulse oximetry and heart-rate monitor module (this sensor is *only* needed to collect training data). This data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
+`read_and_process_csi.py` can also be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. This data is paired with actual heart rate data collected using a generic breakout board with a MAX30102 pulse oximetry and heart-rate monitor module (this sensor is *only* needed to collect training data). This data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
 
 ```python
 main_input = keras.Input(shape=(100, 192), name='main_input')
@@ -83,7 +83,7 @@ layers = keras.layers.Dense(16, activation='relu', name='dense_1')(layers)
 hr_output = keras.layers.Dense(1, name='hr_output')(layers)
 ```
 
-The model ingests 100 sequential CSI packets at a time in a sliding window. The average heart rate measured over that window is the value it is trained to predict.
+The model ingests 100 sequential CSI packets at a time in a sliding window. The average heart rate measured over that window is the value it is trained to predict. Once trained, the model is saved as `csi_hr.keras`, which the `read_and_process_csi.py` loads and uses to predict heart rate.
 
 ## Bill of Materials
 
