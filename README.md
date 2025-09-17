@@ -12,7 +12,7 @@ So I  decided to take a crack at it. I got a copy of the paper and spent some ti
 
 | ![](https://raw.githubusercontent.com/nickbild/csi_hr/refs/heads/main/media/pf_architecture.png) |
 | ------------------------------------------------------------------------------------------------ |
-| *An overview of the Pulse-Fi architecture (📷: P. Kocheta et al.)* |
+| *An overview of the Pulse-Fi appraoch (📷: P. Kocheta et al.)* |
 
 To measure heart rate without contact, a person must be positioned between two ESP32 microcontrollers. One of the devices transmits a steady stream of Channel State Information (CSI) packets, while the other receives the packets. The CSI packets provide detailed information that describes how the signal propagates from the transmitter to the receiver. Anything that interrupts the signal, like the movements of a person, alters the signal in measurable ways. This fact has been leveraged for applications like activity recognition in the past.
 
@@ -27,6 +27,10 @@ Heart beats also involve motion, although it is very subtle compared to what is 
 | Data segmentation and normalization |
 
 This processed data is then fed into a multi-layer LSTM network that predicts heart rate.
+
+| ![](https://raw.githubusercontent.com/nickbild/csi_hr/refs/heads/main/media/pf_lstm.png) |
+| ------------------------------------------------------------------------------------------------ |
+| *The Pulse-Fi LSTM architecture (📷: P. Kocheta et al.)* |
 
 ### My implementation
 
