@@ -36,7 +36,7 @@ This processed data is then fed into a multi-layer LSTM network that predicts he
 
 #### Predicting heart rate
 
-I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller. They are placed several feet apart, and the measuremnt area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv). The source code was compiled and flashed to the devices using the [IDF docker image](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/tools/idf-docker-image.html), e.g.:
+I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller. They are placed several feet apart, and the measurement area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv). The source code was compiled and flashed to the devices using the [IDF docker image](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/tools/idf-docker-image.html), e.g.:
 
 ```bash
 docker pull espressif/idf
