@@ -26,6 +26,28 @@ This processed data is then fed into a multi-layer LSTM network that predicts he
 
 ### My implementation
 
+#### Predicting heart rate
+
+I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller. They are placed several feet apart, and the measuremnt area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv).
+
+The receiving device is connected to a computer via USB so that CSI information can be collected via a serial connection. I very significantly altered Espressif's [csi_data_read_parse.py](https://github.com/espressif/esp-csi/blob/master/examples/get-started/tools/csi_data_read_parse.py) script. My new version is [read_and_process_csi.py](https://github.com/nickbild/csi_hr/blob/main/read_and_process_csi.py), and it eliminates the graphical interface, implements the five Pulse-Fi CSI data processing steps, then forwards the processed data into an LSTM with the same architecture as the one in the paper to predict heart rate.
+
+#### Training the machine learning model
+
+read_and_process_csi.py can also be put into a mode where it collects CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`). This is paired with heart rate data collected using a generic dev board with a MAX30102 pulse oximetry and heart-rate monitor module. This data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
+
+```python
+main_input = keras.Input(shape=(100, 192), name='main_input')
+layers = keras.layers.LSTM(64, return_sequences=True, name='lstm_1')(main_input)
+layers = keras.layers.Dropout(0.2, name='dropout_1')(layers)
+layers = keras.layers.LSTM(32, name='lstm_2')(layers)
+layers = keras.layers.Dropout(0.2, name='dropout_2')(layers)
+layers = keras.layers.Dense(16, activation='relu', name='dense_1')(layers)
+hr_output = keras.layers.Dense(1, name='hr_output')(layers)
+```
+
+The model ingests 100 sequential CSI packets at a time in a sliding window. The average heart rate over that window is the value it is trained to predict.
+
 ## Bill of Materials
 
 - 1 x Adafruit HUZZAH32 (ESP32-WROOM-32E)
