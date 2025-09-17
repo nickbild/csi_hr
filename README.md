@@ -12,7 +12,7 @@ So I  decided to take a crack at it. I got a copy of the paper and spent some ti
 
 | ![](https://raw.githubusercontent.com/nickbild/csi_hr/refs/heads/main/media/pf_architecture.png) |
 | ------------------------------------------------------------------------------------------------ |
-| *An overview of the Pulse-Fi appraoch (📷: P. Kocheta et al.)* |
+| *An overview of the Pulse-Fi approach (📷: P. Kocheta et al.)* |
 
 To measure heart rate without contact, a person must be positioned between two ESP32 microcontrollers. One of the devices transmits a steady stream of Channel State Information (CSI) packets, while the other receives the packets. The CSI packets provide detailed information that describes how the signal propagates from the transmitter to the receiver. Anything that interrupts the signal, like the movements of a person, alters the signal in measurable ways. This fact has been leveraged for applications like activity recognition in the past.
 
