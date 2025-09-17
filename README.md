@@ -63,7 +63,7 @@ exit
 docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_recv/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
 ```
 
-The receiving device is connected to a computer via USB so that CSI information can be collected via a serial connection. I very significantly altered Espressif's [csi_data_read_parse.py](https://github.com/espressif/esp-csi/blob/master/examples/get-started/tools/csi_data_read_parse.py) script. My new version is [read_and_process_csi.py](https://github.com/nickbild/csi_hr/blob/main/read_and_process_csi.py), and it eliminates the graphical interface, implements the five Pulse-Fi CSI data processing steps, then forwards the processed data into an LSTM with the same architecture as the one in the paper to predict heart rate. It can be launched with:
+After flashing, the receiving device is connected to a computer via USB so that CSI information can be collected via a serial connection. I very significantly altered Espressif's [csi_data_read_parse.py](https://github.com/espressif/esp-csi/blob/master/examples/get-started/tools/csi_data_read_parse.py) script. My new version is [read_and_process_csi.py](https://github.com/nickbild/csi_hr/blob/main/read_and_process_csi.py), and it eliminates the graphical interface, implements the five Pulse-Fi CSI data processing steps, then forwards the processed data into an LSTM with the same architecture as the one in the paper to predict heart rate. It can be launched with:
 
 ```bash
 python read_and_process_csi.py -p /dev/ttyUSB0
