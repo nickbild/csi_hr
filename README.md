@@ -83,7 +83,7 @@ layers = keras.layers.Dense(16, activation='relu', name='dense_1')(layers)
 hr_output = keras.layers.Dense(1, name='hr_output')(layers)
 ```
 
-The model ingests 100 sequential CSI packets at a time in a sliding window. The average heart rate measured over that window is the value it is trained to predict. Once trained, the model is saved as `csi_hr.keras`, which the `read_and_process_csi.py` loads and uses to predict heart rate.
+The model ingests 100 sequential CSI packets at a time in a sliding window. The average heart rate measured over that window is the value it is trained to predict. Once trained, the model is saved as `csi_hr.keras`, which `read_and_process_csi.py` loads and uses to predict heart rate.
 
 ## Bill of Materials
 
