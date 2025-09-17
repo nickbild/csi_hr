@@ -71,7 +71,7 @@ python read_and_process_csi.py -p /dev/ttyUSB0
 
 #### Training the machine learning model
 
-read_and_process_csi.py can also be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. This data is paired with actual heart rate data collected using a generic dev board with a MAX30102 pulse oximetry and heart-rate monitor module (this sensor is *only* needed to collect training data). This data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
+read_and_process_csi.py can also be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. This data is paired with actual heart rate data collected using a generic breakout board with a MAX30102 pulse oximetry and heart-rate monitor module (this sensor is *only* needed to collect training data). This data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
 
 ```python
 main_input = keras.Input(shape=(100, 192), name='main_input')
@@ -89,7 +89,7 @@ The model ingests 100 sequential CSI packets at a time in a sliding window. The 
 
 - 1 x Adafruit HUZZAH32 (ESP32-WROOM-32E)
 - 1 x ESP32-DevKitC v4 (ESP32-WROOM-32E)
-- 1 x Generic dev board with MAX30102 pulse oximetry and heart-rate monitor module
+- 1 x Generic breakout board with MAX30102 pulse oximetry and heart-rate monitor module
 
 ## About the Author
 
