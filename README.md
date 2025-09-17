@@ -36,7 +36,17 @@ This processed data is then fed into a multi-layer LSTM network that predicts he
 
 #### Predicting heart rate
 
-I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller. They are placed several feet apart, and the measuremnt area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv).
+I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller. They are placed several feet apart, and the measuremnt area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv). The source code was compiled and flashed to the devices using the [IDF docker image](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/tools/idf-docker-image.html), e.g.:
+
+```bash
+docker pull espressif/idf
+
+docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_send/project -w /project -u $UID -e HOME=/tmp espressif/idf:latest idf.py build
+docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_send/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
+
+docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_recv/project -w /project -u $UID -e HOME=/tmp espressif/idf:latest idf.py build
+docker run --rm -v $PWD:~/csi_hr/esp-csi/examples/get-started/csi_recv/project -w /project espressif/idf:latest idf.py --port /dev/ttyUSB0 flash
+```
 
 The receiving device is connected to a computer via USB so that CSI information can be collected via a serial connection. I very significantly altered Espressif's [csi_data_read_parse.py](https://github.com/espressif/esp-csi/blob/master/examples/get-started/tools/csi_data_read_parse.py) script. My new version is [read_and_process_csi.py](https://github.com/nickbild/csi_hr/blob/main/read_and_process_csi.py), and it eliminates the graphical interface, implements the five Pulse-Fi CSI data processing steps, then forwards the processed data into an LSTM with the same architecture as the one in the paper to predict heart rate.
 
