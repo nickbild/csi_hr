@@ -62,4 +62,5 @@ void loop() {
     Serial.print(" Is your finger on the sensor?");
 
   Serial.println(beatAvg);
+  delay(40); // Roughly match CSI sample rate.
 }
