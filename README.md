@@ -77,7 +77,7 @@ The script prints a steady stream of heart rate predictions to standard output.
 
 `read_and_process_csi.py` can also be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. Data with varying heart rates will be needed, so some of the data should be collected immediately after exercise or other physical activity.
 
-This data is paired with actual heart rate data collected using an Arduino Nano 33IoT and a generic breakout board with a MAX30102 pulse oximetry and heart-rate monitor module (this sensor is *only* needed to collect training data). All of the data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
+This data is paired with actual heart rate data collected using an Arduino Nano 33 IoT and a generic breakout board with a MAX30102 pulse oximetry and heart-rate monitor module (this sensor is *only* needed to collect training data). All of the data is then used in my [training script](https://github.com/nickbild/csi_hr/blob/main/train.py) that builds an LSTM model in TensorFlow with the following architecture:
 
 ```python
 main_input = keras.Input(shape=(100, 192), name='main_input')
