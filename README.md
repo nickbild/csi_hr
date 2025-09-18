@@ -38,6 +38,10 @@ This processed data is then fed into a multi-layer LSTM network that predicts he
 
 #### Predicting heart rate
 
+| ![](https://raw.githubusercontent.com/nickbild/csi_hr/refs/heads/main/media/esp32s_sm.jpg) |
+| ------------------------------------------------------------------------------------------------ |
+| *Brotha from anotha manufactura* |
+
 I have an Adafruit HUZZAH32 and an ESP32-DevKitC v4, both with an ESP32-WROOM-32E microcontroller (these are what I had on hand; other ESP32 boards should work fine). They are placed several feet apart, and the measurement area is between them. One was flashed with the [Espressif csi_send code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_send), and the other with the [Espressif csi_recv code](https://github.com/espressif/esp-csi/blob/master/examples/get-started/csi_recv). The source code was compiled and flashed to the devices using the [IDF docker image](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/tools/idf-docker-image.html), e.g.:
 
 ```bash
