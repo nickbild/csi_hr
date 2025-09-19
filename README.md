@@ -81,7 +81,7 @@ The script prints a steady stream of heart rate predictions to standard output.
 
 #### Training the machine learning model
 
-`read_and_process_csi.py` can be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. Below is a chart showing processed CSI data for one subcarrier. The heart beat signal is clearly visible.
+`read_and_process_csi.py` can be put into a mode where it collects and processes CSI data and writes it to a text file (`COLLECT_TRAINING_DATA = True`), rather than making heart rate predictions. Below is a chart showing processed CSI data for one subcarrier that was collected in this way. The heart beat signal is clearly visible.
 
 ![](https://raw.githubusercontent.com/nickbild/csi_hr/refs/heads/main/media/hr_processed_data.jpg)
 
