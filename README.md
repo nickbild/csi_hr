@@ -4,6 +4,9 @@ An interesting [study](https://www.hackster.io/news/i-heart-wi-fi-f3f726a38a1f) 
 
 So I  decided to take a crack at it. I got a copy of the paper and spent some time digging in and coding up a solution that more or less reproduces the work. Some details are not fully spelled out in the paper, and the team has not released either their code or data, so I cannot guarantee that my method matches it 100%. But while it may not be identical, it is at least quite close, and more importantly, it works. And I suspect most people are more interested in playing with a system that works than they are perfectly reproducing the Pulse-Fi methods to a T.
 
+**Check out the video on YouTube:**
+<a href="https://www.youtube.com/watch?v=Cf6_PGuEiZY">![](https://raw.githubusercontent.com/nickbild/csi_hr/refs/heads/main/media/youtube.jpg)</a>
+
 In the next section, I'll first give an overview of how Pulse-Fi works, then I'll describe my implementation of it.
 
 **Important Note:** *This system is not to be used as a medical device. It could provide false measurements, so it is only for educational use.*
